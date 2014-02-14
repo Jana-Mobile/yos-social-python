@@ -76,6 +76,10 @@ class RequestToken(oauthlib.oauth.OAuthToken):
     Returns a token from something like: oauth_token_secret=xxx&oauth_token=xxx
     """
     params = cgi.parse_qs(s, keep_blank_values=False)
+
+    if params.get('oauth_problem'):
+      return None
+
     key = params['oauth_token'][0]
     secret = params['oauth_token_secret'][0]
     expires_in = params['oauth_expires_in'][0]
