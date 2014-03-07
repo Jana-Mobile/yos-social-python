@@ -101,7 +101,7 @@ class OAuthApplication(object):
     try:
       return simplejson.loads(self.client.access_resource(request))['profile']
     except:
-      raise OAuthApplicationBadResponse()
+      raise OAuthApplicationBadResponseException()
 
   def getPresence(self, guid=None):
     if guid == None:
@@ -113,7 +113,7 @@ class OAuthApplication(object):
     try:
       return simplejson.loads(self.client.access_resource(request))['presence']
     except:
-      raise OAuthApplicationBadResponse()
+      raise OAuthApplicationBadResponseException()
 
   def getConnections(self, guid=None, offset=0, limit=10000):
     if guid == None:
@@ -125,7 +125,7 @@ class OAuthApplication(object):
     try:
       return simplejson.loads(self.client.access_resource(request))
     except:
-      raise OAuthApplicationBadResponse()
+      raise OAuthApplicationBadResponseException()
 
   def getContacts(self, offset=0, limit=10000):
     url = SOCIAL_API_URL + '/user/%s/contacts' % self.token.yahoo_guid
@@ -135,7 +135,7 @@ class OAuthApplication(object):
     try:
       return simplejson.loads(self.client.access_resource(request))
     except:
-      raise OAuthApplicationBadResponse()
+      raise OAuthApplicationBadResponseException()
 
   def getContact(self, contact_id):
     url = SOCIAL_API_URL + '/user/%s/contact/%s' % (self.token.yahoo_guid, contact_id)
@@ -145,7 +145,7 @@ class OAuthApplication(object):
     try:
       return simplejson.loads(self.client.access_resource(request))
     except:
-      raise OAuthApplicationBadResponse()
+      raise OAuthApplicationBadResponseException()
 
   def addContact(self, contact):
     url = SOCIAL_API_URL + '/user/%s/contacts' % self.token.yahoo_guid
@@ -156,7 +156,7 @@ class OAuthApplication(object):
     try:
       return simplejson.loads(self.client.access_resource(request, simplejson.dumps(data)))
     except:
-      raise OAuthApplicationBadResponse()
+      raise OAuthApplicationBadResponseException()
 
   def syncContacts(self, contact_sync):
     url = SOCIAL_API_URL + '/user/%s/contacts' % self.token.yahoo_guid
@@ -167,7 +167,7 @@ class OAuthApplication(object):
     try:
       return simplejson.loads(self.client.access_resource(request, simplejson.dumps(data)))
     except:
-      raise OAuthApplicationBadResponse()
+      raise OAuthApplicationBadResponseException()
 
   def getContactSync(self, revision = 0):
     url = SOCIAL_API_URL + '/user/%s/contacts' % self.token.yahoo_guid
@@ -177,7 +177,7 @@ class OAuthApplication(object):
     try:
       return simplejson.loads(self.client.access_resource(request))
     except:
-      raise OAuthApplicationBadResponse()
+      raise OAuthApplicationBadResponseException()
 
   def getUpdates(self, guid=None, offset=0, limit=10000):
     if guid == None:
@@ -189,7 +189,7 @@ class OAuthApplication(object):
     try:
       return simplejson.loads(self.client.access_resource(request))
     except:
-      raise OAuthApplicationBadResponse()
+      raise OAuthApplicationBadResponseException()
 
   def insertUpdate(self, title, description, link, guid=None):
     if guid == None:
@@ -223,7 +223,7 @@ class OAuthApplication(object):
     try:
       return simplejson.loads(self.client.access_resource(request, body))
     except:
-      raise OAuthApplicationBadResponse()
+      raise OAuthApplicationBadResponseException()
 
   def getSocialGraph(self, offset=0, limit=10000):
     return self.yql('select * from social.profile (%s, %s) where guid in (select guid from social.connections (%s, %s) where owner_guid=me)' % (offset, limit, offset, limit))['query']['results']['profile']
@@ -238,4 +238,4 @@ class OAuthApplication(object):
     try:
       return simplejson.loads(self.client.access_resource(request))
     except:
-      raise OAuthApplicationBadResponse()
+      raise OAuthApplicationBadResponseException()
